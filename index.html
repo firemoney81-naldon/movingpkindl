@@ -1,23 +1,551 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+  <style>
+    /* 폰트 및 기본 설정 */
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      color: #333;
+      background: #f4f6f9; /* 부드러운 배경색 */
+    }
+
+    /* 레이아웃 컨테이너 */
+    header, nav, section, footer {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      background: #fff;
+      margin-bottom: 20px;
+      border-radius: 12px; /* 둥근 모서리 */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* 그림자 효과 강화 */
+    }
+
+    /* 헤더 스타일 */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background-image: linear-gradient(135deg, #fce4ec 0%, #ffcdd2 100%); /* 부드러운 그라데이션 */
+    }
+    header h1 {
+      margin-bottom: 10px;
+      color: #e91e63; /* 메인 컬러 (부드러운 핑크) */
+      font-size: 2.5rem;
+      font-weight: 800;
+    }
+    header p {
+      color: #555;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+    }
+
+    /* 네비게이션 스타일 */
+    nav {
+      background: #e91e63;
+      border-radius: 12px;
+      text-align: center;
+      padding: 18px 0;
+      margin-bottom: 30px;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 18px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+      color: #ffeeff;
+    }
+
+    /* 섹션 헤딩 */
+    h2 {
+      border-bottom: 3px solid #e91e63;
+      padding-bottom: 8px;
+      margin-bottom: 25px;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 700;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #fce4ec;
+    }
+
+    /* 카드형 서비스 목록 */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .service-card {
+      padding: 25px;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(233, 30, 99, 0.2);
+    }
+    .service-card h3 {
+      color: #e91e63;
+      font-size: 1.4rem;
+      margin-top: 0;
+      border-bottom: 2px dashed #fce4ec;
+      padding-bottom: 10px;
+    }
+
+    /* CTA 버튼 */
+    .cta {
+      display: inline-block;
+      background-color: #e91e63;
+      color: white;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-top: 20px;
+    }
+    .cta:hover {
+      background-color: #c2185b;
+      transform: scale(1.02);
+    }
+
+    /* 폼 스타일 */
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+    form input[type="text"], form input[type="tel"], form input[type="date"], form select, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 4px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+    }
+    form button.cta {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* FAQ 스타일 */
+    dl.faq dt {
+      font-weight: 700;
+      margin-top: 20px;
+      cursor: pointer;
+      color: #e91e63;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+      transition: color 0.3s;
+    }
+    dl.faq dt:hover {
+      color: #c2185b;
+    }
+    dl.faq dd {
+      margin-left: 15px;
+      margin-top: 10px;
+      color: #555;
+      line-height: 1.6;
+      border-left: 3px solid #fce4ec;
+      padding-left: 15px;
+    }
+
+    /* 데이터 테이블 스타일 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid #eee;
+      padding: 15px;
+      text-align: left;
+    }
+    th {
+      background-color: #fce4ec;
+      color: #333;
+      font-weight: 700;
+    }
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    /* 시각적 요소 (그래프 대체) */
+    .visual-data {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .chart-bar {
+      height: 20px;
+      background-color: #e91e63;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      transition: width 1s ease-out;
+    }
+    .chart-label {
+      font-weight: 600;
+      color: #444;
+      margin-top: 5px;
+    }
+
+    /* 텍스트 하이라이트 */
+    .highlight {
+      color: #e91e63;
+      font-weight: 700;
+      background-color: #ffeeff;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    /* 외부 링크 영역 */
+    .external-links ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .external-links li {
+      margin-bottom: 10px;
+    }
+    .external-links a {
+      color: #03a9f4; /* 링크 색상 */
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .external-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* 고객 사례 카드 (시각적 개선) */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .review-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      border-left: 5px solid #e91e63;
+    }
+    .review-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #e91e63;
+    }
+    .review-card p {
+      color: #555;
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #ccc;
+      text-align: center;
+      padding: 30px;
+      margin-top: 30px;
+      border-radius: 0; /* 푸터는 전체 너비로 */
+      box-shadow: none;
+    }
+    footer a {
+      color: #fce4ec;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- JSON-LD Schema for LocalBusiness & OfferCatalog (Modified for Daejeon Semi-Packing Moving) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"LocalBusiness",
+    "name":"대전 반포장이사 전문업체",
+    "image":"https://www.yourdomain.kr/images/daejeon_moving_logo.png",
+    "telephone":"010-1234-5678",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"대전광역시 서구 둔산로 ○○",
+      "addressLocality":"대전광역시",
+      "addressRegion":"대전",
+      "postalCode":"35230",
+      "addressCountry":"KR"
+    },
+    "url":"https://www.yourdomain.kr/",
+    "openingHours":"Mo-Su 09:00-19:00",
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": ["대전광역시 서구", "대전광역시 유성구", "대전광역시 중구", "대전광역시 대덕구", "대전광역시 동구"]
+    },
+    "hasOfferCatalog":{
+      "@type":"OfferCatalog",
+      "name":"대전 이사 서비스",
+      "itemListElement":[
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"반포장이사"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"포장이사"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"원룸/오피스텔 반포장이사"}},
+        {"@type":"Offer","itemOffered":{"@type":"Service","name":"사무실/기업 반포장이사"}}
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+
+<header id="top">
+  <h1>대전 반포장이사 | 2026년 최적화된 비용과 만족도 높은 후기</h1>
+  <p>합리적인 <strong class="highlight">대전 반포장이사 비용</strong>과 전문가의 꼼꼼한 서비스로 새로운 시작을 도와드립니다.<br><strong>유성구, 서구, 중구 등 대전 전 지역</strong> 맞춤형 견적을 지금 바로 신청하세요.</p>
+  <a href="#quote-form" class="cta">무료 견적 1:1 상담 신청</a>
+</header>
+
+<nav>
+  <a href="#service-intro">서비스 소개</a>
+  <a href="#process">이사 절차</a>
+  <a href="#cost-guide">비용 가이드</a>
+  <a href="#reviews">고객 후기</a>
+  <a href="#quote-form">견적 신청</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<section id="service-intro" aria-label="대전 반포장이사 서비스 소개">
+  <h2>대전 반포장이사, 현명한 선택을 위한 전문가 가이드</h2>
+  <p>이사 방식은 크게 포장이사, 반포장이사, 일반이사로 나뉩니다. <strong class="highlight">반포장이사</strong>는 포장이사의 편리함과 일반이사의 합리적인 비용을 결합한 서비스로, 고객님의 참여 정도에 따라 비용을 절감할 수 있는 실속형 이사 방법입니다. 2026년 대전 지역에서는 1인 가구와 신혼부부를 중심으로 반포장이사의 수요가 폭발적으로 증가하고 있습니다. 저희는 <span class="highlight">대전 반포장이사 전문팀</span>을 운영하며 고객님의 상황에 최적화된 맞춤형 서비스를 제공합니다.</p>
+
+  <div class="service-grid">
+    <div class="service-card">
+      <h3>반포장이사 (핵심 서비스)</h3>
+      <p>짐 포장은 전문가가 진행하고, 짐 정리는 고객님께서 직접 하는 방식입니다. <br>큰 짐 포장 및 운송, 정리정돈이 필요한 가구 배치를 전문가가 처리하여 시간과 노동력을 절감하면서도 비용은 절약할 수 있습니다.</p>
+    </div>
+    <div class="service-card">
+      <h3>포장이사</h3>
+      <p>포장부터 정리까지 모든 과정을 전문가가 담당합니다. 바쁜 일정으로 인해 짐 정리에 신경 쓸 여유가 없는 분들께 추천합니다.</p>
+    </div>
+    <div class="service-card">
+      <h3>원룸/오피스텔 반포장이사</h3>
+      <p>1인 가구에 최적화된 서비스입니다. 짐량이 적어 비용 부담이 적으며, 사다리차 없이도 이사가 가능한 환경에서는 더욱 합리적인 <span class="highlight">대전 원룸 반포장이사 비용</span>을 제시합니다.</p>
+    </div>
+    <div class="service-card">
+      <h3>사무실/기업 반포장이사</h3>
+      <p>사무실 집기 및 중요 서류 포장은 직원이 담당하고, 운송 및 배치만 전문가가 진행하는 방식입니다. 기업의 특성에 맞춘 맞춤형 서비스입니다.</p>
+    </div>
+  </div>
+
+  <section id="daejeon-area-coverage">
+    <h3>대전 지역별 특화 서비스: 유성구, 서구, 중구, 동구, 대덕구</h3>
+    <p>저희는 대전 전 지역에 걸쳐 <strong class="highlight">반포장이사 전문 서비스</strong>를 제공하며, 각 지역의 특성을 고려한 맞춤형 이사를 진행합니다. <strong class="highlight">대전 유성구</strong>는 <span class="highlight">도안신도시, 노은동, 봉명동</span> 등 신축 아파트 단지가 많아 사다리차 이용이 필수적이거나, 짐량 변화가 많은 1인 가구 비율이 높습니다. 반면 <strong class="highlight">대전 서구</strong>의 <span class="highlight">둔산동, 관저동, 탄방동, 갈마동</span> 등은 오래된 아파트나 주택이 혼재되어 있어 진입로 확보 및 짐 운송 동선 확보가 중요합니다. 저희는 지역별 이사 경험이 풍부하여 어떤 환경에서도 신속하고 안전한 이사를 보장합니다.</p>
+    <p>특히 <span class="highlight">대전 중구</span>는 <span class="highlight">문화동, 오류동, 용두동</span> 등 주택가와 상업 지구가 혼재되어 있어 주차 공간 확보가 관건이며, <span class="highlight">대전 동구</span>의 <span class="highlight">가오동, 판암동</span>, <span class="highlight">대전 대덕구</span>의 <span class="highlight">송강동, 전민동</span> 지역 이사 시에도 사전에 철저한 현장 점검을 통해 돌발 상황을 최소화하고 있습니다. <br>자동완성 키워드: 대전 반포장이사 후기, 대전 반포장이사 잘하는 곳, 대전 반포장이사 추천, 대전 둔산동 반포장이사, 대전 유성 반포장이사 비용, 대전 포장이사 업체 비교.</p>
+  </section>
+</section>
+
+<section id="process" aria-label="대전 반포장이사 절차">
+  <h2>대전 반포장이사, 단계별 꼼꼼한 절차 안내</h2>
+  <ol>
+    <li><strong class="highlight">무료 견적 신청 및 상담 (전화 또는 온라인)</strong>: 고객님께서 이사 일정을 문의하시면, 2026년 최신 데이터베이스 기반으로 예상 견적을 산출하여 1차 상담을 진행합니다.</li>
+    <li><strong class="highlight">현장 방문 견적 (필수)</strong>: 정확한 <span class="highlight">대전 반포장이사 비용</span> 산출을 위해 전문 견적 매니저가 직접 방문하여 짐량, 특수 짐(가전, 가구), 사다리차 사용 여부, 엘리베이터 유무 등을 상세히 확인합니다.</li>
+    <li><strong class="highlight">맞춤형 서비스 계약 및 일정 확정</strong>: 고객님의 요구사항(짐 정리 참여 정도, 추가 청소 서비스 등)을 반영한 맞춤형 견적서를 제공하고 계약을 체결합니다.</li>
+    <li><strong class="highlight">이사 당일 포장 및 운송</strong>: 고객님의 짐 중 주방 식기류, 깨지기 쉬운 물품, 의류 등을 전문가가 꼼꼼하게 포장하고 운송합니다. (반포장이사의 경우 고객님은 잔짐을 미리 정리합니다.)</li>
+    <li><strong class="highlight">새 집에서의 배치 및 정리</strong>: 도착지에서 가구 및 가전 배치를 전문가가 진행합니다. 고객님은 잔짐 정리만 하시면 됩니다.</li>
+    <li><strong class="highlight">사후 서비스 및 피드백</strong>: 이사 후 짐 정리 과정에서 발생한 문제점이나 미흡한 부분에 대해 A/S를 제공합니다.</li>
+  </ol>
+</section>
+
+<section id="cost-guide" aria-label="대전 반포장이사 비용 가이드">
+  <h2>2026년 대전 반포장이사 비용 분석 및 투명 견적 가이드</h2>
+  <p>이사 비용은 짐량, 이사 거리, 작업 인원, 사다리차 사용 여부, 이사 시기(손없는 날 등)에 따라 크게 달라집니다. 특히 <strong class="highlight">대전 반포장이사 비용</strong>은 포장이사 대비 20~30% 저렴한 것이 일반적입니다. 저희는 투명한 견적 시스템을 통해 고객님께 불필요한 비용을 부과하지 않습니다. 아래는 2026년 대전 지역 평균 이사 비용 비교표입니다.</p>
+
+  <table>
+    <caption>이사 유형별 평균 비용 비교 (2026년 기준, 대전 시내 기준, 짐량에 따라 변동)</caption>
+    <thead>
+      <tr>
+        <th>이사 유형</th>
+        <th>20평형대 (3인 기준)</th>
+        <th>30평형대 (4인 기준)</th>
+        <th>서비스 내용</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>반포장이사</strong></td>
+        <td>40만원 ~ 60만원</td>
+        <td>60만원 ~ 90만원</td>
+        <td>주요 짐 포장 및 운송/배치 (잔짐 정리 고객 직접)</td>
+      </tr>
+      <tr>
+        <td>포장이사</td>
+        <td>60만원 ~ 90만원</td>
+        <td>90만원 ~ 130만원</td>
+        <td>포장부터 정리까지 모든 과정 전문가 진행</td>
+      </tr>
+      <tr>
+        <td>일반이사</td>
+        <td>30만원 ~ 40만원</td>
+        <td>40만원 ~ 60만원</td>
+        <td>고객 직접 포장 및 정리 (운송만 지원)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>주요 비용 변동 요인 (필수 확인)</strong></p>
+  <ul>
+    <li><strong class="highlight">이사 시기</strong>: 봄 이사철(3~4월), 가을 이사철(9~10월), 주말, '손없는 날'은 수요 증가로 인해 비용이 상승합니다.</li>
+    <li><strong class="highlight">짐량 및 특수 물품</strong>: 짐이 많거나, 피아노, 돌침대, 에어컨 분리/설치 등 특수 작업이 필요한 경우 추가 비용이 발생합니다.</li>
+    <li><strong class="highlight">사다리차 사용</strong>: 3층 이상의 고층 이사 시 사다리차 사용이 권장되며, 이는 별도 비용으로 책정됩니다.</li>
+    <li><strong class="highlight">포함 인원</strong>: 짐량에 따라 투입되는 인원이 증가하며, 이에 따라 비용이 달라집니다.</li>
+  </ul>
+  <p>특히 <span class="highlight">대전 서구 둔산동</span>이나 <span class="highlight">유성구 도안동</span>처럼 아파트 단지가 밀집한 지역에서는 사다리차 예약 및 주차 공간 확보가 중요하므로, <strong class="highlight">이사 계획 초기 단계에서부터 전문가와 상담하는 것이 중요합니다.</strong></p>
+</section>
+
+<section id="reviews" aria-label="대전 반포장이사 고객 사례 및 후기">
+  <h2>대전 지역별 반포장이사 고객 사례 및 후기</h2>
+  <div class="review-grid">
+    <div class="review-card">
+      <strong>대전 유성구 관평동 30평 아파트 반포장이사 후기</strong>
+      <p>“이번에 <strong class="highlight">유성구</strong>로 이사하면서 반포장이사를 처음 이용해봤습니다. 포장이사보다 비용이 저렴해서 선택했는데, 큰 짐들은 전문가분들이 알아서 정리해주시고 잔짐만 제가 정리하니 훨씬 수월했어요. 짐 정리할 시간이 충분한 분이라면 반포장이사가 정답입니다. <strong class="highlight">노은동, 관저동</strong> 쪽으로 이사하는 친구에게도 추천했습니다.”</p>
+    </div>
+    <div class="review-card">
+      <strong>대전 서구 둔산동 원룸 반포장이사 만족 사례</strong>
+      <p>“<strong class="highlight">둔산동</strong> 오피스텔 이사라 짐이 많지 않아 <strong class="highlight">원룸 반포장이사</strong>로 진행했습니다. 전문가 1분이 오셔서 냉장고, 세탁기 등 큰 짐 포장 및 운반을 해주셨고, 제 개인 짐은 제가 정리했습니다. <strong class="highlight">대전 반포장이사 비용</strong> 25만원에 모든 것이 해결되어 만족합니다. 특히 사다리차 없이 진행 가능한 환경이라 더욱 좋았습니다.”</p>
+    </div>
+    <div class="review-card">
+      <strong>대전 중구 문화동 주택 이사 경험</strong>
+      <p>“<strong class="highlight">문화동</strong> 주택에서 <strong class="highlight">용두동</strong> 아파트로 이사하는 과정이었습니다. 주택이라 짐 포장에 신경이 많이 쓰였는데, 팀장님이 꼼꼼하게 포장해주셨고, 새 아파트에 짐 배치까지 완벽하게 해주셔서 잔짐 정리만 남았어요. 전문가의 숙련된 노하우를 느낄 수 있었습니다.”</p>
+    </div>
+  </div>
+</section>
+
+<section id="quote-form" aria-label="무료 견적 신청 및 맞춤형 상담">
+  <h2>무료 견적 신청하기 | 대전 반포장이사 맞춤형 상담</h2>
+  <p>아래 폼을 작성해주시면 고객님의 이사 환경과 요구사항을 정확히 파악하여, 2026년 최적화된 <strong class="highlight">대전 반포장이사 비용</strong>과 서비스를 안내해 드립니다. 견적 문의는 24시간 언제든 환영하며, 입력 정보는 상담 목적으로만 사용됩니다.</p>
+  <form action="/submit-estimate" method="POST" aria-describedby="견적폼설명">
+    <label for="moving-type">이사 유형 선택</label>
+    <select id="moving-type" name="type" required>
+      <option value="">이사 유형을 선택하세요</option>
+      <option value="반포장이사">반포장이사</option>
+      <option value="포장이사">포장이사</option>
+      <option value="원룸/오피스텔 반포장이사">원룸/오피스텔 반포장이사</option>
+      <option value="사무실/기업 반포장이사">사무실/기업 반포장이사</option>
+      <option value="보관이사">보관이사</option>
+      <option value="입주청소">입주청소</option>
+    </select>
+
+    <label for="moving-date">이사 예정일</label>
+    <input type="date" id="moving-date" name="date" required />
+
+    <label for="departure-area">출발지 (예: 대전 서구 둔산동)</label>
+    <input type="text" id="departure-area" name="from-area" placeholder="예: 대전광역시 서구 둔산동" required />
+
+    <label for="departure-type">출발지 건물 유형</label>
+    <select id="departure-type" name="from-building-type" required>
+      <option value="">건물 유형 선택</option>
+      <option value="아파트">아파트</option>
+      <option value="주택/빌라">주택/빌라</option>
+      <option value="오피스텔/원룸">오피스텔/원룸</option>
+      <option value="사무실">사무실</option>
+    </select>
+
+    <label for="destination-area">도착지 (예: 대전 유성구 노은동)</label>
+    <input type="text" id="destination-area" name="to-area" placeholder="예: 대전광역시 유성구 노은동" required />
+
+    <label for="destination-type">도착지 건물 유형</label>
+    <select id="destination-type" name="to-building-type" required>
+      <option value="">건물 유형 선택</option>
+      <option value="아파트">아파트</option>
+      <option value="주택/빌라">주택/빌라</option>
+      <option value="오피스텔/원룸">오피스텔/원룸</option>
+      <option value="사무실">사무실</option>
+    </select>
+
+    <label for="item-quantity">짐량 (평형 또는 톤) 및 특이사항</label>
+    <input type="text" id="item-quantity" name="item-quantity" placeholder="예: 30평형 아파트 짐량, 특수 짐(돌침대 등) 유무" required />
+
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" placeholder="고객명" required />
+
+    <label for="phone">연락처</label>
+    <input type="tel" id="phone" name="phone" placeholder="010-1234-5678" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" required />
+
+    <label for="extra-request">추가 요청사항 (자세히 적어주시면 정확한 견적에 도움이 됩니다)</label>
+    <textarea id="extra-request" name="extra-request" rows="4" placeholder="사다리차 사용 가능 여부, 이사 전후 청소 필요 여부, 이사 시기 특이사항 등"></textarea>
+
+    <input type="checkbox" id="privacy-agree" name="privacy-agree" required />
+    <label for="privacy-agree" style="display:inline; font-weight:normal;">개인정보 수집 및 이용 동의 (필수)</label>
+
+    <button type="submit" class="cta">견적 요청하기</button>
+  </form>
+</section>
+
+<section id="faq" aria-label="자주 묻는 질문 FAQ">
+  <h2>자주 묻는 질문 (FAQ)</h2>
+  <dl class="faq">
+    <dt>Q. <strong class="highlight">대전 반포장이사</strong>와 포장이사의 가장 큰 차이점은 무엇인가요?</dt>
+    <dd>A. 가장 큰 차이는 <span class="highlight">짐 정리의 주체</span>입니다. 포장이사는 포장부터 정리까지 모든 과정을 전문가가 진행하지만, 반포장이사는 전문가가 큰 짐(가구, 가전)을 포장 및 배치하고, 고객님께서 잔짐(잡동사니, 개인 물품)을 직접 정리하는 방식입니다. 이로 인해 비용 절감이 가능합니다.</dd>
+
+    <dt>Q. <strong class="highlight">대전 반포장이사 비용</strong>은 어떻게 산출되나요? 평균 비용을 알려주세요.</dt>
+    <dd>A. 이사 비용은 짐량(평수), 이사 거리, 작업 인원, 사다리차 유무, 이사 시기(성수기/비수기)에 따라 달라집니다. <span class="highlight">대전 지역 2026년 기준</span>, 20평형대 아파트 반포장이사 비용은 40~60만원대, 30평형대 아파트는 60~90만원대가 일반적입니다. 정확한 비용은 현장 방문 견적을 통해서만 확정됩니다.</dd>
+
+    <dt>Q. '손 없는 날' 이사 비용은 얼마나 증가하나요?</dt>
+    <dd>A. '손 없는 날'은 이사 수요가 집중되는 날로, 이사 비용이 평일 대비 10~30% 가량 상승할 수 있습니다. <strong class="highlight">대전 반포장이사</strong>를 계획하고 계시다면, '손 없는 날'을 피하거나 미리 예약하는 것이 비용 절감에 도움이 됩니다.</dd>
+
+    <dt>Q. <strong class="highlight">대전 서구 둔산동</strong>이나 <strong class="highlight">유성구 도안동</strong> 신축 아파트 단지도 이사가 가능한가요?</dt>
+    <dd>A. 네, 가능합니다. <strong class="highlight">대전 서구 둔산동, 관저동</strong>을 포함하여 <strong class="highlight">유성구 노은동, 봉명동, 도안동</strong> 등 신축 아파트 단지 이사 경험이 풍부합니다. 신축 아파트의 경우 이사 동선, 엘리베이터 사용 예약, 주차장 진입로 등을 사전에 철저히 확인하여 이사 당일 차질이 없도록 준비합니다.</dd>
+
+    <dt>Q. <strong class="highlight">대전 반포장이사</strong> 시 짐 포장 시 고객이 준비해야 할 사항이 있나요?</dt>
+    <dd>A. 반포장이사는 고객님께서 잔짐 정리를 직접 하셔야 합니다. 이사 당일 전문가의 포장 작업에 방해되지 않도록 귀중품이나 중요 서류, 잔짐을 미리 정리하여 박스에 담아두시면 이사 시간을 단축할 수 있습니다. 잔짐 박스는 미리 제공해드립니다.</dd>
+
+    <dt>Q. 이사 중 짐 파손 시 보험 처리가 되나요?</dt>
+    <dd>A. 네, 저희는 <strong class="highlight">적재물 배상책임보험</strong>에 가입되어 있습니다. 이사 작업 중 발생하는 파손 사고에 대해 고객님께 보상을 해드립니다. 짐 파손 발생 시 현장에서 바로 담당 팀장에게 말씀해주시면 즉시 처리 절차를 안내해드립니다.</dd>
+  </dl>
+</section>
+
+<section id="external-info" class="external-links" aria-label="신뢰할 수 있는 외부 정보">
+  <h2>이사 관련 공신력 있는 외부 정보 및 참고 자료</h2>
+  <p>저희는 고객님께 투명하고 신뢰성 있는 이사 정보를 제공하고자 공신력 있는 기관의 자료를 참고합니다. 아래 링크를 통해 이사 관련 정보를 확인하실 수 있습니다.</p>
+  <ul>
+    <li><a href="https://www.consumer.go.kr/main/index.do" target="_blank">한국소비자원: 이사 서비스 관련 소비자분쟁 해결 기준</a></li>
+    <li><a href="https://namu.wiki/w/%EC%9D%B4%EC%82%AC" target="_blank">나무위키: 이사</a></li>
+    <li><a href="http://www.k-jip.or.kr/" target="_blank">한국이사협동조합</a></li>
+    <li><a href="https://www.molit.go.kr/portal/main.do" target="_blank">국토교통부: 이사화물 운송 주선업 허가 관련 정보</a></li>
+    <li><a href="https://www.daejeon.go.kr/drh/index.do" target="_blank">대전광역시청: 이사 관련 지역 정보 및 인구 이동 통계 (2026년)</a></li>
+  </ul>
+</section>
+
+<section id="contact-info" aria-label="문의하기">
+  <h2>문의하기 및 회사 정보</h2>
+  <p><strong>전화번호: 010-1234-5678</strong> | <a href="mailto:info@yourdomain.kr">info@yourdomain.kr</a></p>
+  <p>주소: 대전광역시 서구 둔산로 ○○○ (둔산동)</p>
+  <p>영업시간: 평일/주말 09:00~19:00 (이사 문의는 24시간 가능)</p>
+</section>
+
+<footer>
+  <p style="text-align:center;">&copy; 2026 대전 반포장이사 전문업체 | 사업자등록번호 123-45-67890 | 주소: 대전광역시 서구</p>
+  <p style="text-align:center; font-size:0.8rem; margin-top:10px;">본 웹사이트에 명시된 모든 정보는 2026년 대전 지역 이사 시장 분석을 기반으로 작성되었습니다.</p>
+</footer>
+
+
+  
